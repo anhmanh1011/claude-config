@@ -1,15 +1,22 @@
 # Claude Code Config
 
-Cấu hình Claude Code cá nhân - sync across machines.
+Cau hinh Claude Code ca nhan - sync across machines.
 
-## Cài đặt nhanh (1 lệnh)
+## Mac / Linux
 
 ```bash
-git clone https://github.com/anhmanh1011/claude-config.git /tmp/claude-config && cd /tmp/claude-config && ./install.sh
+git clone https://github.com/anhmanh1011/claude-config.git /tmp/claude-config && /tmp/claude-config/install.sh
 ```
 
-## Nội dung
+## Windows (PowerShell)
 
-- `settings.json` - Cấu hình Claude Code (plugins, permissions, marketplaces)
-- `skills/` - Custom skills
-- `install.sh` - Script cài đặt tự động
+```powershell
+git clone https://github.com/anhmanh1011/claude-config.git $env:TEMP\claude-config; & "$env:TEMP\claude-config\install.ps1"
+```
+
+## Noi dung
+
+- `settings.json` - Cau hinh Claude Code (plugins, permissions, marketplaces)
+- `skills/` - 52 global skills (Golang + Anthropic official)
+- `install.sh` - Script cai dat cho Mac/Linux
+- `install.ps1` - Script cai dat cho Windows
