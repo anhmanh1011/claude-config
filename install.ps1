@@ -3,35 +3,55 @@ $ErrorActionPreference = "Stop"
 
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $ClaudeDir = "$env:USERPROFILE\.claude"
-$SkillsDir = "$ClaudeDir\skills"
 
 Write-Host "=== Claude Code Global Config Installer ===" -ForegroundColor Cyan
 Write-Host "Target: $ClaudeDir"
 Write-Host ""
 
-# Tao .claude neu chua co
 if (!(Test-Path $ClaudeDir)) {
     New-Item -ItemType Directory -Path $ClaudeDir | Out-Null
 }
 
-# Backup settings cu
+# Backup settings
 if (Test-Path "$ClaudeDir\settings.json") {
     Copy-Item "$ClaudeDir\settings.json" "$ClaudeDir\settings.json.backup"
     Write-Host "~ Backed up existing settings.json"
 }
 
-# Copy settings (global)
+# Copy settings
 Copy-Item "$ScriptDir\settings.json" "$ClaudeDir\settings.json"
-Write-Host "- Installed settings.json (global)" -ForegroundColor Green
+Write-Host "- Installed settings.json" -ForegroundColor Green
 
-# Install skills (global)
+# Install skills
 if (Test-Path "$ScriptDir\skills") {
-    if (!(Test-Path $SkillsDir)) {
-        New-Item -ItemType Directory -Path $SkillsDir | Out-Null
-    }
+    $SkillsDir = "$ClaudeDir\skills"
+    if (!(Test-Path $SkillsDir)) { New-Item -ItemType Directory -Path $SkillsDir | Out-Null }
     Copy-Item "$ScriptDir\skills\*" $SkillsDir -Recurse -Force
-    $SkillCount = (Get-ChildItem -Directory $SkillsDir).Count
-    Write-Host "- Installed $SkillCount skills to $SkillsDir (global)" -ForegroundColor Green
+    Write-Host "- Installed $((Get-ChildItem -Directory $SkillsDir).Count) skills" -ForegroundColor Green
+}
+
+# Install agents
+if (Test-Path "$ScriptDir\agents") {
+    $AgentsDir = "$ClaudeDir\agents"
+    if (!(Test-Path $AgentsDir)) { New-Item -ItemType Directory -Path $AgentsDir | Out-Null }
+    Copy-Item "$ScriptDir\agents\*" $AgentsDir -Recurse -Force
+    Write-Host "- Installed $((Get-ChildItem $AgentsDir -File).Count) agents" -ForegroundColor Green
+}
+
+# Install commands
+if (Test-Path "$ScriptDir\commands") {
+    $CommandsDir = "$ClaudeDir\commands"
+    if (!(Test-Path $CommandsDir)) { New-Item -ItemType Directory -Path $CommandsDir | Out-Null }
+    Copy-Item "$ScriptDir\commands\*" $CommandsDir -Recurse -Force
+    Write-Host "- Installed $((Get-ChildItem $CommandsDir -File).Count) commands" -ForegroundColor Green
+}
+
+# Install hooks
+if (Test-Path "$ScriptDir\hooks") {
+    $HooksDir = "$ClaudeDir\hooks"
+    if (!(Test-Path $HooksDir)) { New-Item -ItemType Directory -Path $HooksDir | Out-Null }
+    Copy-Item "$ScriptDir\hooks\*" $HooksDir -Recurse -Force
+    Write-Host "- Installed hooks" -ForegroundColor Green
 }
 
 # Check Claude Code
@@ -42,4 +62,4 @@ if (Get-Command claude -ErrorAction SilentlyContinue) {
 }
 
 Write-Host ""
-Write-Host "=== Done! Skills are global - available in ALL projects ===" -ForegroundColor Cyan
+Write-Host "=== Done! All global - available in ALL projects ===" -ForegroundColor Cyan
