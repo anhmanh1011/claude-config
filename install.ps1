@@ -22,6 +22,12 @@ if (Test-Path "$ClaudeDir\settings.json") {
 Copy-Item "$ScriptDir\settings.json" "$ClaudeDir\settings.json"
 Write-Host "- Installed settings.json" -ForegroundColor Green
 
+# Copy CLAUDE.md (global instructions)
+if (Test-Path "$ScriptDir\CLAUDE.md") {
+    Copy-Item "$ScriptDir\CLAUDE.md" "$ClaudeDir\CLAUDE.md"
+    Write-Host "- Installed CLAUDE.md (global instructions)" -ForegroundColor Green
+}
+
 # Install skills
 if (Test-Path "$ScriptDir\skills") {
     $SkillsDir = "$ClaudeDir\skills"

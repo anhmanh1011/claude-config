@@ -20,6 +20,12 @@ fi
 cp "$SCRIPT_DIR/settings.json" "$CLAUDE_DIR/settings.json"
 echo "- Installed settings.json"
 
+# Copy CLAUDE.md (global instructions)
+if [ -f "$SCRIPT_DIR/CLAUDE.md" ]; then
+  cp "$SCRIPT_DIR/CLAUDE.md" "$CLAUDE_DIR/CLAUDE.md"
+  echo "- Installed CLAUDE.md (global instructions)"
+fi
+
 # Install skills
 if [ -d "$SCRIPT_DIR/skills" ]; then
   mkdir -p "$CLAUDE_DIR/skills"
