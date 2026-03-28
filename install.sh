@@ -1,32 +1,41 @@
 #!/bin/bash
 set -e
 
-echo "=== Claude Code Config Installer ==="
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+CLAUDE_DIR="$HOME/.claude"
+SKILLS_DIR="$CLAUDE_DIR/skills"
+
+echo "=== Claude Code Global Config Installer ==="
+echo "Target: $CLAUDE_DIR"
+echo ""
 
 # Tạo ~/.claude nếu chưa có
-mkdir -p ~/.claude
+mkdir -p "$CLAUDE_DIR"
 
 # Backup settings cũ nếu có
-[ -f ~/.claude/settings.json ] && cp ~/.claude/settings.json ~/.claude/settings.json.backup
-
-# Copy settings
-cp settings.json ~/.claude/settings.json
-
-# Copy skills nếu có
-if [ -d "skills" ]; then
-  mkdir -p ~/.claude/skills
-  cp -r skills/* ~/.claude/skills/
-  echo "✓ Skills installed"
+if [ -f "$CLAUDE_DIR/settings.json" ]; then
+  cp "$CLAUDE_DIR/settings.json" "$CLAUDE_DIR/settings.json.backup"
+  echo "~ Backed up existing settings.json"
 fi
 
-# Cài plugin superpowers
-echo "Installing superpowers plugin..."
+# Copy settings (global)
+cp "$SCRIPT_DIR/settings.json" "$CLAUDE_DIR/settings.json"
+echo "- Installed settings.json (global)"
+
+# Install skills (global - áp dụng cho TẤT CẢ projects)
+if [ -d "$SCRIPT_DIR/skills" ]; then
+  mkdir -p "$SKILLS_DIR"
+  cp -r "$SCRIPT_DIR/skills/"* "$SKILLS_DIR/"
+  SKILL_COUNT=$(ls -d "$SKILLS_DIR"/*/ 2>/dev/null | wc -l | tr -d ' ')
+  echo "- Installed $SKILL_COUNT skills to $SKILLS_DIR (global)"
+fi
+
+# Check Claude Code
 if command -v claude &> /dev/null; then
-  claude mcp __plugin_superpowers -- echo "plugin ready" 2>/dev/null || true
-  echo "✓ Plugin registered (sẽ tự cài khi mở Claude Code)"
+  echo "- Claude Code detected"
 else
-  echo "⚠ Claude Code chưa cài. Cài trước: npm install -g @anthropic-ai/claude-code"
+  echo "! Claude Code not found. Install: npm install -g @anthropic-ai/claude-code"
 fi
 
 echo ""
-echo "=== Done! Mở Claude Code để bắt đầu ==="
+echo "=== Done! Skills are global - available in ALL projects ==="
