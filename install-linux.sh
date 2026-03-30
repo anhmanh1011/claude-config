@@ -87,6 +87,13 @@ if [ -d "$SCRIPT_DIR/hooks" ]; then
   echo "- Installed hooks"
 fi
 
+# Install rules
+if [ -d "$SCRIPT_DIR/rules" ]; then
+  mkdir -p "$CLAUDE_DIR/rules"
+  cp -r "$SCRIPT_DIR/rules/"* "$CLAUDE_DIR/rules/"
+  echo "- Installed $(ls "$CLAUDE_DIR/rules/" | wc -l | tr -d ' ') rules"
+fi
+
 echo ""
 echo "=== Done! All global - available in ALL projects ==="
 echo ""

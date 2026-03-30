@@ -60,6 +60,14 @@ if (Test-Path "$ScriptDir\hooks") {
     Write-Host "- Installed hooks" -ForegroundColor Green
 }
 
+# Install rules
+if (Test-Path "$ScriptDir\rules") {
+    $RulesDir = "$ClaudeDir\rules"
+    if (!(Test-Path $RulesDir)) { New-Item -ItemType Directory -Path $RulesDir | Out-Null }
+    Copy-Item "$ScriptDir\rules\*" $RulesDir -Recurse -Force
+    Write-Host "- Installed $((Get-ChildItem $RulesDir -File).Count) rules" -ForegroundColor Green
+}
+
 # Check Claude Code
 if (Get-Command claude -ErrorAction SilentlyContinue) {
     Write-Host "- Claude Code detected" -ForegroundColor Green
