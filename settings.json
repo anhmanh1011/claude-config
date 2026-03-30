@@ -18,6 +18,19 @@
   },
   "effortLevel": "high",
   "skipDangerousModePermissionPrompt": true,
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "echo 'REMINDER: Check CLAUDE.md language skills before writing code. Go=11 skills, Python=2 skills, also security-review for auth/API.'"
+          }
+        ]
+      }
+    ]
+  },
   "permissions": {
     "allow": [
       "WebSearch"

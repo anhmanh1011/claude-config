@@ -1,6 +1,8 @@
 # Global Instructions
 
-## Auto-apply skills by language
+## MANDATORY: Auto-apply skills by language
+
+**This is a HARD REQUIREMENT, not a suggestion.** Before writing ANY code (directly or via subagents), you MUST invoke ALL matching language skills below. No workflow (superpowers, brainstorming, etc.) overrides this. See also: `~/.claude/rules/enforce-language-skills.md`
 
 When working with **Golang** projects, automatically apply these skills:
 - golang-project-layout
